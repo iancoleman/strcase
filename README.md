@@ -1,4 +1,5 @@
-# strcase
+strcase [![Build Status](https://travis-ci.org/iancoleman/strcase.svg)](https://travis-ci.org/iancoleman/strcase)
+=======
 
 strcase is a go package for converting string case to [snake case](https://en.wikipedia.org/wiki/Snake_case) or [camel case](https://en.wikipedia.org/wiki/CamelCase).
 
