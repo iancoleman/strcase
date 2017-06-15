@@ -5,10 +5,10 @@ import (
 )
 
 // Converts a string to CamelCase
-func ToCamel(s string) string {
+func ToCamelInitCase(s string, initCase bool) string {
 	s = strings.Trim(s, " ")
 	n := ""
-	capNext := true
+	capNext := initCase
 	for _, v := range s {
 		if v >= 'A' && v <= 'Z' {
 			n += string(v)
@@ -20,11 +20,19 @@ func ToCamel(s string) string {
 				n += string(v)
 			}
 		}
-		if v == '_'  || v == ' ' {
+		if v == '_'  || v == ' ' || v == '-' {
 			capNext = true
 		} else {
 			capNext = false
 		}
 	}
 	return n
+}
+
+func ToCamel(s string) string {
+    return ToCamelInitCase(s, true);
+}
+
+func ToLowerCamel(s string) string {
+    return ToCamelInitCase(s, false);
 }
