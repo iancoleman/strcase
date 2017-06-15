@@ -13,6 +13,7 @@ func TestToCamel(t *testing.T) {
 		[]string{ "", "" },
 		[]string{ "many_many_words", "ManyManyWords" },
 		[]string{ "AnyKind of_string", "AnyKindOfString" },
+		[]string{ "odd-fix", "OddFix" },
 	}
 	for _, i := range cases {
 		in := i[0]
