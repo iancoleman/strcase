@@ -24,3 +24,17 @@ func TestToCamel(t *testing.T) {
 		}
 	}
 }
+
+func TestToLowerCamel(t *testing.T) {
+	cases := [][]string{
+		[]string{ "foo-bar", "fooBar" },
+	}
+	for _, i := range cases {
+		in := i[0]
+		out := i[1]
+		result := ToLowerCamel(in)
+		if result != out {
+			t.Error("'" + result + "' != '" + out + "'")
+		}
+	}
+}
