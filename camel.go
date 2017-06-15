@@ -5,7 +5,7 @@ import (
 )
 
 // Converts a string to CamelCase
-func ToCamelInitCase(s string, initCase bool) string {
+func toCamelInitCase(s string, initCase bool) string {
 	s = strings.Trim(s, " ")
 	n := ""
 	capNext := initCase
@@ -30,9 +30,9 @@ func ToCamelInitCase(s string, initCase bool) string {
 }
 
 func ToCamel(s string) string {
-    return ToCamelInitCase(s, true);
+    return toCamelInitCase(s, true);
 }
 
 func ToLowerCamel(s string) string {
-    return ToCamelInitCase(s, false);
+    return toCamelInitCase(s, false);
 }
