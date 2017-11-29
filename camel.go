@@ -24,7 +24,7 @@ func toCamelInitCase(s string, initCase bool) string {
 				n += string(v)
 			}
 		}
-		if v == '_'  || v == ' ' || v == '-' {
+		if v == '_' || v == ' ' || v == '-' {
 			capNext = true
 		} else {
 			capNext = false
@@ -34,9 +34,9 @@ func toCamelInitCase(s string, initCase bool) string {
 }
 
 func ToCamel(s string) string {
-    return toCamelInitCase(s, true);
+	return toCamelInitCase(s, true)
 }
 
 func ToLowerCamel(s string) string {
-    return toCamelInitCase(s, false);
+	return toCamelInitCase(s, false)
 }
