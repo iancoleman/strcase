@@ -6,11 +6,15 @@ import (
 
 // Converts a string to CamelCase
 func toCamelInitCase(s string, initCase bool) string {
+	s = addWordBoundariesToNumbers(s)
 	s = strings.Trim(s, " ")
 	n := ""
 	capNext := initCase
 	for _, v := range s {
 		if v >= 'A' && v <= 'Z' {
+			n += string(v)
+		}
+		if v >= '0' && v <= '9' {
 			n += string(v)
 		}
 		if v >= 'a' && v <= 'z' {

@@ -7,6 +7,7 @@ import (
 
 // Converts a string to snake_case
 func ToSnake(s string) string {
+	s = addWordBoundariesToNumbers(s)
 	s = strings.Trim(s, " ")
 	n := ""
 	for i, v := range s {

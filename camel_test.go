@@ -14,6 +14,7 @@ func TestToCamel(t *testing.T) {
 		[]string{ "many_many_words", "ManyManyWords" },
 		[]string{ "AnyKind of_string", "AnyKindOfString" },
 		[]string{ "odd-fix", "OddFix" },
+		[]string{ "numbers2And55with000", "Numbers2And55With000" },
 	}
 	for _, i := range cases {
 		in := i[0]
