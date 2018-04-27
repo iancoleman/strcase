@@ -13,7 +13,7 @@ func ToSnake(s string) string {
 	for i, v := range s {
 		// treat acronyms as words, eg for JSONData -> JSON is a whole word
 		preIsCapital := false
-		if i - 1 > 0 {
+		if i > 0 {
 			w := s[i-1]
 			preIsCapital = w >= 'A' && w <= 'Z'
 		}
