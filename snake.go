@@ -12,14 +12,21 @@ func ToSnake(s string) string {
 	n := ""
 	for i, v := range s {
 		// treat acronyms as words, eg for JSONData -> JSON is a whole word
-		preIsCapital := false
-		if i > 0 {
-			w := s[i-1]
-			preIsCapital = w >= 'A' && w <= 'Z'
+		nextCaseIsChanged := false
+		if i+1 < len(s) {
+			next := s[i+1]
+			if (v >= 'A' && v <= 'Z' && next >= 'a' && next <= 'z') || (v >= 'a' && v <= 'z' && next >= 'A' && next <= 'Z') {
+				nextCaseIsChanged = true
+			}
 		}
-		if i > 0 && v >= 'A' && v <= 'Z' && n[len(n)-1] != '_' && !preIsCapital {
-			// add underscore if next letter is a capital
-			n += "_" + string(v)
+
+		if i > 0 && n[len(n)-1] != '_' && nextCaseIsChanged {
+			// add underscore if next letter case type is changed
+			if v >= 'A' && v <= 'Z' {
+				n += "_" + string(v)
+			} else if v >= 'a' && v <= 'z' {
+				n += string(v) + "_"
+			}
 		} else if v == ' ' {
 			// replace spaces with underscores
 			n += "_"
