@@ -21,6 +21,8 @@ func TestToSnake(t *testing.T) {
 		[]string{"AnyKind of_string", "any_kind_of_string"},
 		[]string{"numbers2and55with000", "numbers_2_and_55_with_000"},
 		[]string{"JSONData", "json_data"},
+		[]string{"userID", "user_id"},
+		[]string{"AAAbbb", "aa_abbb"},
 	}
 	for _, i := range cases {
 		in := i[0]
