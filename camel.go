@@ -10,9 +10,13 @@ func toCamelInitCase(s string, initCase bool) string {
 	s = strings.Trim(s, " ")
 	n := ""
 	capNext := initCase
-	for _, v := range s {
+	for i, v := range s {
 		if v >= 'A' && v <= 'Z' {
-			n += string(v)
+			if !initCase && i == 0 {
+				n += strings.ToLower(string(v))
+			} else {
+				n += string(v)
+			}
 		}
 		if v >= '0' && v <= '9' {
 			n += string(v)
