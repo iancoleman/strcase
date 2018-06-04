@@ -38,5 +38,11 @@ func ToCamel(s string) string {
 }
 
 func ToLowerCamel(s string) string {
+	if s == "" {
+		return s
+	}
+	if r := rune(s[0]); r >= 'A' && r <= 'Z' {
+		s = strings.ToLower(string(r)) + s[1:]
+	}
 	return toCamelInitCase(s, false)
 }
