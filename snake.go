@@ -40,6 +40,16 @@ func ToScreamingSnake(s string) string {
 	return ToScreamingDelimited(s, '_', true)
 }
 
+// Converts a string to kebab-case
+func ToKebab(s string) string {
+	return ToDelimited(s, '-')
+}
+
+// Converts a string to SCREAMING-KEBAB-CASE
+func ToScreamingKebab(s string) string {
+	return ToScreamingDelimited(s, '-', true)
+}
+
 // Converts a string to delimited.snake.case (in this case `del = '.'`)
 func ToDelimited(s string, del uint8) string {
 	return ToScreamingDelimited(s, del, false)

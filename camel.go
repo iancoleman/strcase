@@ -2,6 +2,7 @@
  * The MIT License (MIT)
  *
  * Copyright (c) 2015 Ian Coleman
+ * Copyright (c) 2018 Ma_124, <github.com/Ma124>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -57,10 +58,12 @@ func toCamelInitCase(s string, initCase bool) string {
 	return n
 }
 
+// Converts a string to CamelCase
 func ToCamel(s string) string {
 	return toCamelInitCase(s, true)
 }
 
+// Converts a string to lowerCamelCase
 func ToLowerCamel(s string) string {
 	if s == "" {
 		return s
