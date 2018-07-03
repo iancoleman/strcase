@@ -1,7 +1,6 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 Ian Coleman
  * Copyright (c) 2018 Ma_124, <github.com/Ma124>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,46 +22,6 @@
  * SOFTWARE.
  */
 
-// Package strcase converts strings to snake_case or CamelCase
 package strcase
 
-import (
-	"strings"
-)
 
-// Converts a string to snake_case
-func ToSnake(s string) string {
-	return ToDelimited(s, '_')
-}
-
-func ToDelimited(s string, del uint8) string {
-	s = addWordBoundariesToNumbers(s)
-	s = strings.Trim(s, " ")
-	n := ""
-	for i, v := range s {
-		// treat acronyms as words, eg for JSONData -> JSON is a whole word
-		nextCaseIsChanged := false
-		if i+1 < len(s) {
-			next := s[i+1]
-			if (v >= 'A' && v <= 'Z' && next >= 'a' && next <= 'z') || (v >= 'a' && v <= 'z' && next >= 'A' && next <= 'Z') {
-				nextCaseIsChanged = true
-			}
-		}
-
-		if i > 0 && n[len(n)-1] != del && nextCaseIsChanged {
-			// add underscore if next letter case type is changed
-			if v >= 'A' && v <= 'Z' {
-				n += string(del) + string(v)
-			} else if v >= 'a' && v <= 'z' {
-				n += string(v) + string(del)
-			}
-		} else if v == ' ' || v == '_' || v == '-' {
-			// replace spaces/underscores with delimiters
-			n += string(del)
-		} else {
-			n = n + string(v)
-		}
-	}
-	n = strings.ToLower(n)
-	return n
-}

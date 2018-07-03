@@ -2,6 +2,7 @@
  * The MIT License (MIT)
  *
  * Copyright (c) 2015 Ian Coleman
+ * Copyright (c) 2018 Ma_124, <github.com/Ma124>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -53,7 +54,38 @@ func TestToSnake(t *testing.T) {
 		out := i[1]
 		result := ToSnake(in)
 		if result != out {
-			t.Error("'" + result + "' != '" + out + "'")
+			t.Error("'" + in + "'('" + result + "' != '" + out + "')")
+		}
+	}
+}
+
+func TestToDelimited(t *testing.T) {
+	cases := [][]string{
+		[]string{"testCase", "test@case"},
+		[]string{"TestCase", "test@case"},
+		[]string{"Test Case", "test@case"},
+		[]string{" Test Case", "test@case"},
+		[]string{"Test Case ", "test@case"},
+		[]string{" Test Case ", "test@case"},
+		[]string{"test", "test"},
+		[]string{"test_case", "test@case"},
+		[]string{"Test", "test"},
+		[]string{"", ""},
+		[]string{"ManyManyWords", "many@many@words"},
+		[]string{"manyManyWords", "many@many@words"},
+		[]string{"AnyKind of_string", "any@kind@of@string"},
+		[]string{"numbers2and55with000", "numbers@2@and@55@with@000"},
+		[]string{"JSONData", "json@data"},
+		[]string{"userID", "user@id"},
+		[]string{"AAAbbb", "aa@abbb"},
+		[]string{"test-case", "test@case"},
+	}
+	for _, i := range cases {
+		in := i[0]
+		out := i[1]
+		result := ToDelimited(in, '@')
+		if result != out {
+			t.Error("'" + in + "' ('" + result + "' != '" + out + "')")
 		}
 	}
 }
