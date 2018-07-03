@@ -8,7 +8,7 @@ strcase is a go package for converting string case to [snake case](https://en.wi
 ## Example
 
 ```go
-x := "AnyKind of_string"
+s := "AnyKind of_string"
 ```
 
 | Function                          | Result               |
