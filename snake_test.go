@@ -89,3 +89,59 @@ func TestToDelimited(t *testing.T) {
 		}
 	}
 }
+
+func TestToScreamingSnake(t *testing.T) {
+	cases := [][]string{
+		[]string{"testCase", "TEST_CASE"},
+	}
+	for _, i := range cases {
+		in := i[0]
+		out := i[1]
+		result := ToScreamingSnake(in)
+		if result != out {
+			t.Error("'" + result + "' != '" + out + "'")
+		}
+	}
+}
+
+func TestToKebab(t *testing.T) {
+	cases := [][]string{
+		[]string{"testCase", "test-case"},
+	}
+	for _, i := range cases {
+		in := i[0]
+		out := i[1]
+		result := ToKebab(in)
+		if result != out {
+			t.Error("'" + result + "' != '" + out + "'")
+		}
+	}
+}
+
+func TestToScreamingKebab(t *testing.T) {
+	cases := [][]string{
+		[]string{"testCase", "TEST-CASE"},
+	}
+	for _, i := range cases {
+		in := i[0]
+		out := i[1]
+		result := ToScreamingKebab(in)
+		if result != out {
+			t.Error("'" + result + "' != '" + out + "'")
+		}
+	}
+}
+
+func TestToScreamingDelimited(t *testing.T) {
+	cases := [][]string{
+		[]string{"testCase", "TEST.CASE"},
+	}
+	for _, i := range cases {
+		in := i[0]
+		out := i[1]
+		result := ToScreamingDelimited(in, '.', true)
+		if result != out {
+			t.Error("'" + result + "' != '" + out + "'")
+		}
+	}
+}
