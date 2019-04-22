@@ -30,15 +30,15 @@ import (
 
 func TestToCamel(t *testing.T) {
 	cases := [][]string{
-		[]string{"test_case", "TestCase"},
-		[]string{"test", "Test"},
-		[]string{"TestCase", "TestCase"},
-		[]string{" test  case ", "TestCase"},
-		[]string{"", ""},
-		[]string{"many_many_words", "ManyManyWords"},
-		[]string{"AnyKind of_string", "AnyKindOfString"},
-		[]string{"odd-fix", "OddFix"},
-		[]string{"numbers2And55with000", "Numbers2And55With000"},
+		{"test_case", "TestCase"},
+		{"test", "Test"},
+		{"TestCase", "TestCase"},
+		{" test  case ", "TestCase"},
+		{"", ""},
+		{"many_many_words", "ManyManyWords"},
+		{"AnyKind of_string", "AnyKindOfString"},
+		{"odd-fix", "OddFix"},
+		{"numbers2And55with000", "Numbers2And55With000"},
 	}
 	for _, i := range cases {
 		in := i[0]
@@ -52,10 +52,10 @@ func TestToCamel(t *testing.T) {
 
 func TestToLowerCamel(t *testing.T) {
 	cases := [][]string{
-		[]string{"foo-bar", "fooBar"},
-		[]string{"TestCase", "testCase"},
-		[]string{"", ""},
-		[]string{"AnyKind of_string", "anyKindOfString"},
+		{"foo-bar", "fooBar"},
+		{"TestCase", "testCase"},
+		{"", ""},
+		{"AnyKind of_string", "anyKindOfString"},
 	}
 	for _, i := range cases {
 		in := i[0]

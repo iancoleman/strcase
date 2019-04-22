@@ -31,23 +31,23 @@ import (
 
 func TestToSnake(t *testing.T) {
 	cases := [][]string{
-		[]string{"testCase", "test_case"},
-		[]string{"TestCase", "test_case"},
-		[]string{"Test Case", "test_case"},
-		[]string{" Test Case", "test_case"},
-		[]string{"Test Case ", "test_case"},
-		[]string{" Test Case ", "test_case"},
-		[]string{"test", "test"},
-		[]string{"test_case", "test_case"},
-		[]string{"Test", "test"},
-		[]string{"", ""},
-		[]string{"ManyManyWords", "many_many_words"},
-		[]string{"manyManyWords", "many_many_words"},
-		[]string{"AnyKind of_string", "any_kind_of_string"},
-		[]string{"numbers2and55with000", "numbers_2_and_55_with_000"},
-		[]string{"JSONData", "json_data"},
-		[]string{"userID", "user_id"},
-		[]string{"AAAbbb", "aa_abbb"},
+		{"testCase", "test_case"},
+		{"TestCase", "test_case"},
+		{"Test Case", "test_case"},
+		{" Test Case", "test_case"},
+		{"Test Case ", "test_case"},
+		{" Test Case ", "test_case"},
+		{"test", "test"},
+		{"test_case", "test_case"},
+		{"Test", "test"},
+		{"", ""},
+		{"ManyManyWords", "many_many_words"},
+		{"manyManyWords", "many_many_words"},
+		{"AnyKind of_string", "any_kind_of_string"},
+		{"numbers2and55with000", "numbers_2_and_55_with_000"},
+		{"JSONData", "json_data"},
+		{"userID", "user_id"},
+		{"AAAbbb", "aa_abbb"},
 	}
 	for _, i := range cases {
 		in := i[0]
@@ -61,24 +61,24 @@ func TestToSnake(t *testing.T) {
 
 func TestToDelimited(t *testing.T) {
 	cases := [][]string{
-		[]string{"testCase", "test@case"},
-		[]string{"TestCase", "test@case"},
-		[]string{"Test Case", "test@case"},
-		[]string{" Test Case", "test@case"},
-		[]string{"Test Case ", "test@case"},
-		[]string{" Test Case ", "test@case"},
-		[]string{"test", "test"},
-		[]string{"test_case", "test@case"},
-		[]string{"Test", "test"},
-		[]string{"", ""},
-		[]string{"ManyManyWords", "many@many@words"},
-		[]string{"manyManyWords", "many@many@words"},
-		[]string{"AnyKind of_string", "any@kind@of@string"},
-		[]string{"numbers2and55with000", "numbers@2@and@55@with@000"},
-		[]string{"JSONData", "json@data"},
-		[]string{"userID", "user@id"},
-		[]string{"AAAbbb", "aa@abbb"},
-		[]string{"test-case", "test@case"},
+		{"testCase", "test@case"},
+		{"TestCase", "test@case"},
+		{"Test Case", "test@case"},
+		{" Test Case", "test@case"},
+		{"Test Case ", "test@case"},
+		{" Test Case ", "test@case"},
+		{"test", "test"},
+		{"test_case", "test@case"},
+		{"Test", "test"},
+		{"", ""},
+		{"ManyManyWords", "many@many@words"},
+		{"manyManyWords", "many@many@words"},
+		{"AnyKind of_string", "any@kind@of@string"},
+		{"numbers2and55with000", "numbers@2@and@55@with@000"},
+		{"JSONData", "json@data"},
+		{"userID", "user@id"},
+		{"AAAbbb", "aa@abbb"},
+		{"test-case", "test@case"},
 	}
 	for _, i := range cases {
 		in := i[0]
@@ -92,7 +92,7 @@ func TestToDelimited(t *testing.T) {
 
 func TestToScreamingSnake(t *testing.T) {
 	cases := [][]string{
-		[]string{"testCase", "TEST_CASE"},
+		{"testCase", "TEST_CASE"},
 	}
 	for _, i := range cases {
 		in := i[0]
@@ -106,7 +106,7 @@ func TestToScreamingSnake(t *testing.T) {
 
 func TestToKebab(t *testing.T) {
 	cases := [][]string{
-		[]string{"testCase", "test-case"},
+		{"testCase", "test-case"},
 	}
 	for _, i := range cases {
 		in := i[0]
@@ -120,7 +120,7 @@ func TestToKebab(t *testing.T) {
 
 func TestToScreamingKebab(t *testing.T) {
 	cases := [][]string{
-		[]string{"testCase", "TEST-CASE"},
+		{"testCase", "TEST-CASE"},
 	}
 	for _, i := range cases {
 		in := i[0]
@@ -134,7 +134,7 @@ func TestToScreamingKebab(t *testing.T) {
 
 func TestToScreamingDelimited(t *testing.T) {
 	cases := [][]string{
-		[]string{"testCase", "TEST.CASE"},
+		{"testCase", "TEST.CASE"},
 	}
 	for _, i := range cases {
 		in := i[0]
