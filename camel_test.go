@@ -56,6 +56,8 @@ func TestToLowerCamel(t *testing.T) {
 		{"TestCase", "testCase"},
 		{"", ""},
 		{"AnyKind of_string", "anyKindOfString"},
+		{"UserID", "userId"},
+		{"ID", "id"},
 	}
 	for _, i := range cases {
 		in := i[0]

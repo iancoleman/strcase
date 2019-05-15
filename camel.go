@@ -68,6 +68,9 @@ func ToLowerCamel(s string) string {
 	if s == "" {
 		return s
 	}
+	if strings.Index(s, "ID") != -1 {
+		s = strings.Replace(s, "ID", "Id", -1)
+	}
 	if r := rune(s[0]); r >= 'A' && r <= 'Z' {
 		s = strings.ToLower(string(r)) + s[1:]
 	}
