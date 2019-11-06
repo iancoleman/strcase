@@ -31,6 +31,7 @@ import (
 func TestToCamel(t *testing.T) {
 	cases := [][]string{
 		{"test_case", "TestCase"},
+		{"test.case", "TestCase"},
 		{"test", "Test"},
 		{"TestCase", "TestCase"},
 		{" test  case ", "TestCase"},
@@ -56,6 +57,7 @@ func TestToLowerCamel(t *testing.T) {
 		{"TestCase", "testCase"},
 		{"", ""},
 		{"AnyKind of_string", "anyKindOfString"},
+		{"AnyKind.of-string", "anyKindOfString"},
 	}
 	for _, i := range cases {
 		in := i[0]
