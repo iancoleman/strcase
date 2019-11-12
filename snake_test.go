@@ -58,6 +58,40 @@ func TestToSnake(t *testing.T) {
 		}
 	}
 }
+func TestToSnakeWithIgnore(t *testing.T) {
+	cases := [][]string{
+		{"testCase", "test_case"},
+		{"TestCase", "test_case"},
+		{"Test Case", "test_case"},
+		{" Test Case", "test_case"},
+		{"Test Case ", "test_case"},
+		{" Test Case ", "test_case"},
+		{"test", "test"},
+		{"test_case", "test_case"},
+		{"Test", "test"},
+		{"", ""},
+		{"ManyManyWords", "many_many_words"},
+		{"manyManyWords", "many_many_words"},
+		{"AnyKind of_string", "any_kind_of_string"},
+		{"numbers2and55with000", "numbers_2_and_55_with_000"},
+		{"JSONData", "json_data"},
+		{"AwesomeAcitvity.UserID", "awesome_acitvity.user_id","."},
+		{"AwesomeAcitvity.User.Id", "awesome_acitvity.user.id","."},
+		{"AwesomeUsername@Awesome.Com", "awesome_username@awesome._com","@"},
+	}
+	for _, i := range cases {
+		in := i[0]
+		out := i[1]
+		var ingore uint8
+		if len(i)==3{
+			ingore=i[2][0]
+		}
+		result := ToSnakeWithIgnore(in,ingore)
+		if result != out {
+			t.Error("'" + in + "'('" + result + "' != '" + out + "')")
+		}
+	}
+}
 
 func TestToDelimited(t *testing.T) {
 	cases := [][]string{
@@ -139,7 +173,7 @@ func TestToScreamingDelimited(t *testing.T) {
 	for _, i := range cases {
 		in := i[0]
 		out := i[1]
-		result := ToScreamingDelimited(in, '.', true)
+		result := ToScreamingDelimited(in, '.',0, true)
 		if result != out {
 			t.Error("'" + result + "' != '" + out + "'")
 		}
