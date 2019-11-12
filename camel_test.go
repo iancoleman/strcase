@@ -40,6 +40,7 @@ func TestToCamel(t *testing.T) {
 		{"AnyKind of_string", "AnyKindOfString"},
 		{"odd-fix", "OddFix"},
 		{"numbers2And55with000", "Numbers2And55With000"},
+		{"ID", "Id"},
 	}
 	for _, i := range cases {
 		in := i[0]
@@ -58,6 +59,7 @@ func TestToLowerCamel(t *testing.T) {
 		{"", ""},
 		{"AnyKind of_string", "anyKindOfString"},
 		{"AnyKind.of-string", "anyKindOfString"},
+		{"ID", "id"},
 	}
 	for _, i := range cases {
 		in := i[0]
