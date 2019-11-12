@@ -75,18 +75,18 @@ func TestToSnakeWithIgnore(t *testing.T) {
 		{"AnyKind of_string", "any_kind_of_string"},
 		{"numbers2and55with000", "numbers_2_and_55_with_000"},
 		{"JSONData", "json_data"},
-		{"AwesomeAcitvity.UserID", "awesome_acitvity.user_id","."},
-		{"AwesomeAcitvity.User.Id", "awesome_acitvity.user.id","."},
-		{"AwesomeUsername@Awesome.Com", "awesome_username@awesome._com","@"},
+		{"AwesomeAcitvity.UserID", "awesome_acitvity.user_id", "."},
+		{"AwesomeAcitvity.User.Id", "awesome_acitvity.user.id", "."},
+		{"AwesomeUsername@Awesome.Com", "awesome_username@awesome._com", "@"},
 	}
 	for _, i := range cases {
 		in := i[0]
 		out := i[1]
-		var ingore uint8
-		if len(i)==3{
-			ingore=i[2][0]
+		var ignore uint8
+		if len(i) == 3 {
+			ignore = i[2][0]
 		}
-		result := ToSnakeWithIgnore(in,ingore)
+		result := ToSnakeWithIgnore(in, ignore)
 		if result != out {
 			t.Error("'" + in + "'('" + result + "' != '" + out + "')")
 		}
@@ -173,7 +173,7 @@ func TestToScreamingDelimited(t *testing.T) {
 	for _, i := range cases {
 		in := i[0]
 		out := i[1]
-		result := ToScreamingDelimited(in, '.',0, true)
+		result := ToScreamingDelimited(in, '.', 0, true)
 		if result != out {
 			t.Error("'" + result + "' != '" + out + "'")
 		}
