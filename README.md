@@ -22,3 +22,10 @@ s := "AnyKind of_string"
 | `ToScreamingDelimited(s, '.')`    | `ANY.KIND.OF.STRING` |
 | `ToCamel(s)`                      | `AnyKindOfString`    |
 | `ToLowerCamel(s)`                 | `anyKindOfString`    |
+
+
+## Install
+
+```bash
+go get -u github.com/iancoleman/strcase
+```
