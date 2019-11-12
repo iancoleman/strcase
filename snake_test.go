@@ -179,3 +179,19 @@ func TestToScreamingDelimited(t *testing.T) {
 		}
 	}
 }
+
+func TestToScreamingDelimitedWithIgnore(t *testing.T) {
+	cases := [][]string{
+		{"AnyKind of_string", "ANY.KIND OF.STRING", ".", " "},
+	}
+	for _, i := range cases {
+		in := i[0]
+		out := i[1]
+		delimiter := uint8(i[2][0])
+		ignore := uint8(i[3][0])
+		result := ToScreamingDelimited(in, delimiter, ignore, true)
+		if result != out {
+			t.Error("'" + result + "' != '" + out + "'")
+		}
+	}
+}

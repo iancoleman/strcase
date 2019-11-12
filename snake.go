@@ -94,7 +94,11 @@ func ToScreamingDelimited(s string, delimiter uint8, ignore uint8, screaming boo
 			}
 		} else if v == ' ' || v == '_' || v == '-' {
 			// replace spaces/underscores with delimiters
-			n += string(delimiter)
+			if uint8(v) == ignore {
+				n += string(v)
+			} else {
+				n += string(delimiter)
+			}
 		} else {
 			n = n + string(v)
 		}
