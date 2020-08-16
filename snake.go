@@ -65,14 +65,40 @@ func ToDelimited(s string, delimiter uint8) string {
 // (in this case `delimiter = '.'; screaming = false`)
 func ToScreamingDelimited(s string, delimiter uint8, ignore uint8, screaming bool) string {
 	s = addWordBoundariesToNumbers(s)
-	s = strings.Trim(s, " ")
-	n := ""
-	for i, v := range s {
+	n := strings.Builder{}
+	n.Grow(len(s) + 2) // nominal 2 bytes of extra space for inserted delimiters
+	start := true
+	spaces := 0
+	for i, v := range []byte(s) {
+		if v == ' ' {
+			spaces++
+			continue
+		} else if start {
+			start = false
+			spaces = 0
+		} else {
+			for ; spaces > 0; spaces-- {
+				if ignore == ' ' {
+					n.WriteByte(' ')
+				} else {
+					n.WriteByte(delimiter)
+				}
+			}
+		}
+
+		vIsCap := v >= 'A' && v <= 'Z'
+		vIsLow := v >= 'a' && v <= 'z'
+		if vIsLow && screaming {
+			v += 'A'
+			v -= 'a'
+		} else if vIsCap && !screaming {
+			v += 'a'
+			v -= 'A'
+		}
+
 		// treat acronyms as words, eg for JSONData -> JSON is a whole word
 		if i+1 < len(s) {
 			next := s[i+1]
-			vIsCap := v >= 'A' && v <= 'Z'
-			vIsLow := v >= 'a' && v <= 'z'
 			nextIsCap := next >= 'A' && next <= 'Z'
 			nextIsLow := next >= 'a' && next <= 'z'
 			// add underscore if next letter case type is changed
@@ -80,12 +106,12 @@ func ToScreamingDelimited(s string, delimiter uint8, ignore uint8, screaming boo
 				if prevIgnore := ignore > 0 && i > 0 && s[i-1] == ignore; !prevIgnore {
 					if vIsCap && nextIsLow {
 						if prevIsCap := i > 0 && s[i-1] >= 'A' && s[i-1] <= 'Z'; prevIsCap {
-							n += string(delimiter)
+							n.WriteByte(delimiter)
 						}
 					}
-					n += string(v)
+					n.WriteByte(v)
 					if vIsLow {
-						n += string(delimiter)
+						n.WriteByte(delimiter)
 					}
 					continue
 				}
@@ -94,16 +120,11 @@ func ToScreamingDelimited(s string, delimiter uint8, ignore uint8, screaming boo
 
 		if (v == ' ' || v == '_' || v == '-') && uint8(v) != ignore {
 			// replace space/underscore/hyphen with delimiter
-			n += string(delimiter)
+			n.WriteByte(delimiter)
 		} else {
-			n += string(v)
+			n.WriteByte(v)
 		}
 	}
 
-	if screaming {
-		n = strings.ToUpper(n)
-	} else {
-		n = strings.ToLower(n)
-	}
-	return n
+	return n.String()
 }
