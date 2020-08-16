@@ -28,7 +28,7 @@ import (
 	"testing"
 )
 
-func TestToCamel(t *testing.T) {
+func toCamel(tb testing.TB) {
 	cases := [][]string{
 		{"test_case", "TestCase"},
 		{"test.case", "TestCase"},
@@ -47,12 +47,20 @@ func TestToCamel(t *testing.T) {
 		out := i[1]
 		result := ToCamel(in)
 		if result != out {
-			t.Error("'" + result + "' != '" + out + "'")
+			tb.Error("'" + result + "' != '" + out + "'")
 		}
 	}
 }
 
-func TestToLowerCamel(t *testing.T) {
+func TestToCamel(t *testing.T) {
+	toCamel(t)
+}
+
+func BenchmarkToCamel(b *testing.B) {
+	benchmarkCamelTest(b, toCamel)
+}
+
+func toLowerCamel(tb testing.TB) {
 	cases := [][]string{
 		{"foo-bar", "fooBar"},
 		{"TestCase", "testCase"},
@@ -66,7 +74,21 @@ func TestToLowerCamel(t *testing.T) {
 		out := i[1]
 		result := ToLowerCamel(in)
 		if result != out {
-			t.Error("'" + result + "' != '" + out + "'")
+			tb.Error("'" + result + "' != '" + out + "'")
 		}
+	}
+}
+
+func TestToLowerCamel(t *testing.T) {
+	toLowerCamel(t)
+}
+
+func BenchmarkToLowerCamel(b *testing.B) {
+	benchmarkCamelTest(b, toLowerCamel)
+}
+
+func benchmarkCamelTest(b *testing.B, fn func(testing.TB)) {
+	for n := 0; n < b.N; n++ {
+		fn(b)
 	}
 }

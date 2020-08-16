@@ -29,7 +29,7 @@ import (
 	"testing"
 )
 
-func TestToSnake(t *testing.T) {
+func toSnake(tb testing.TB) {
 	cases := [][]string{
 		{"testCase", "test_case"},
 		{"TestCase", "test_case"},
@@ -54,11 +54,18 @@ func TestToSnake(t *testing.T) {
 		out := i[1]
 		result := ToSnake(in)
 		if result != out {
-			t.Error("'" + in + "'('" + result + "' != '" + out + "')")
+			tb.Error("'" + in + "'('" + result + "' != '" + out + "')")
 		}
 	}
 }
-func TestToSnakeWithIgnore(t *testing.T) {
+
+func TestToSnake(t *testing.T) { toSnake(t) }
+
+func BenchmarkToSnake(b *testing.B) {
+	benchmarkSnakeTest(b, toSnake)
+}
+
+func toSnakeWithIgnore(tb testing.TB) {
 	cases := [][]string{
 		{"testCase", "test_case"},
 		{"TestCase", "test_case"},
@@ -88,12 +95,18 @@ func TestToSnakeWithIgnore(t *testing.T) {
 		}
 		result := ToSnakeWithIgnore(in, ignore)
 		if result != out {
-			t.Error("'" + in + "'('" + result + "' != '" + out + "')")
+			tb.Error("'" + in + "'('" + result + "' != '" + out + "')")
 		}
 	}
 }
 
-func TestToDelimited(t *testing.T) {
+func TestToSnakeWithIgnore(t *testing.T) { toSnakeWithIgnore(t) }
+
+func BenchmarkToSnakeWithIgnore(b *testing.B) {
+	benchmarkSnakeTest(b, toSnakeWithIgnore)
+}
+
+func toDelimited(tb testing.TB) {
 	cases := [][]string{
 		{"testCase", "test@case"},
 		{"TestCase", "test@case"},
@@ -119,12 +132,18 @@ func TestToDelimited(t *testing.T) {
 		out := i[1]
 		result := ToDelimited(in, '@')
 		if result != out {
-			t.Error("'" + in + "' ('" + result + "' != '" + out + "')")
+			tb.Error("'" + in + "' ('" + result + "' != '" + out + "')")
 		}
 	}
 }
 
-func TestToScreamingSnake(t *testing.T) {
+func TestToDelimited(t *testing.T) { toDelimited(t) }
+
+func BenchmarkToDelimited(b *testing.B) {
+	benchmarkSnakeTest(b, toDelimited)
+}
+
+func toScreamingSnake(tb testing.TB) {
 	cases := [][]string{
 		{"testCase", "TEST_CASE"},
 	}
@@ -133,12 +152,18 @@ func TestToScreamingSnake(t *testing.T) {
 		out := i[1]
 		result := ToScreamingSnake(in)
 		if result != out {
-			t.Error("'" + result + "' != '" + out + "'")
+			tb.Error("'" + result + "' != '" + out + "'")
 		}
 	}
 }
 
-func TestToKebab(t *testing.T) {
+func TestToScreamingSnake(t *testing.T) { toScreamingSnake(t) }
+
+func BenchmarkToScreamingSnake(b *testing.B) {
+	benchmarkSnakeTest(b, toScreamingSnake)
+}
+
+func toKebab(tb testing.TB) {
 	cases := [][]string{
 		{"testCase", "test-case"},
 	}
@@ -147,12 +172,18 @@ func TestToKebab(t *testing.T) {
 		out := i[1]
 		result := ToKebab(in)
 		if result != out {
-			t.Error("'" + result + "' != '" + out + "'")
+			tb.Error("'" + result + "' != '" + out + "'")
 		}
 	}
 }
 
-func TestToScreamingKebab(t *testing.T) {
+func TestToKebab(t *testing.T) { toKebab(t) }
+
+func BenchmarkToKebab(b *testing.B) {
+	benchmarkSnakeTest(b, toKebab)
+}
+
+func toScreamingKebab(tb testing.TB) {
 	cases := [][]string{
 		{"testCase", "TEST-CASE"},
 	}
@@ -161,12 +192,18 @@ func TestToScreamingKebab(t *testing.T) {
 		out := i[1]
 		result := ToScreamingKebab(in)
 		if result != out {
-			t.Error("'" + result + "' != '" + out + "'")
+			tb.Error("'" + result + "' != '" + out + "'")
 		}
 	}
 }
 
-func TestToScreamingDelimited(t *testing.T) {
+func TestToScreamingKebab(t *testing.T) { toScreamingKebab(t) }
+
+func BenchmarkToScreamingKebab(b *testing.B) {
+	benchmarkSnakeTest(b, toScreamingKebab)
+}
+
+func toScreamingDelimited(tb testing.TB) {
 	cases := [][]string{
 		{"testCase", "TEST.CASE"},
 	}
@@ -175,12 +212,18 @@ func TestToScreamingDelimited(t *testing.T) {
 		out := i[1]
 		result := ToScreamingDelimited(in, '.', 0, true)
 		if result != out {
-			t.Error("'" + result + "' != '" + out + "'")
+			tb.Error("'" + result + "' != '" + out + "'")
 		}
 	}
 }
 
-func TestToScreamingDelimitedWithIgnore(t *testing.T) {
+func TestToScreamingDelimited(t *testing.T) { toScreamingDelimited(t) }
+
+func BenchmarkToScreamingDelimited(b *testing.B) {
+	benchmarkSnakeTest(b, toScreamingDelimited)
+}
+
+func toScreamingDelimitedWithIgnore(tb testing.TB) {
 	cases := [][]string{
 		{"AnyKind of_string", "ANY.KIND OF.STRING", ".", " "},
 	}
@@ -191,7 +234,19 @@ func TestToScreamingDelimitedWithIgnore(t *testing.T) {
 		ignore := uint8(i[3][0])
 		result := ToScreamingDelimited(in, delimiter, ignore, true)
 		if result != out {
-			t.Error("'" + result + "' != '" + out + "'")
+			tb.Error("'" + result + "' != '" + out + "'")
 		}
+	}
+}
+
+func TestToScreamingDelimitedWithIgnore(t *testing.T) { toScreamingDelimitedWithIgnore(t) }
+
+func BenchmarkToScreamingDelimitedWithIgnore(b *testing.B) {
+	benchmarkSnakeTest(b, toScreamingDelimitedWithIgnore)
+}
+
+func benchmarkSnakeTest(b *testing.B, fn func(testing.TB)) {
+	for n := 0; n < b.N; n++ {
+		fn(b)
 	}
 }
