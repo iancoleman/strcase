@@ -47,7 +47,7 @@ func toCamel(tb testing.TB) {
 		out := i[1]
 		result := ToCamel(in)
 		if result != out {
-			tb.Error("'" + result + "' != '" + out + "'")
+			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
 	}
 }
@@ -74,7 +74,7 @@ func toLowerCamel(tb testing.TB) {
 		out := i[1]
 		result := ToLowerCamel(in)
 		if result != out {
-			tb.Error("'" + result + "' != '" + out + "'")
+			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
 	}
 }

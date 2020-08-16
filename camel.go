@@ -32,28 +32,18 @@ import (
 // Converts a string to CamelCase
 func toCamelInitCase(s string, initCase bool) string {
 	s = addWordBoundariesToNumbers(s)
-	s = strings.Trim(s, " ")
 	n := ""
 	capNext := initCase
 	for _, v := range s {
-		if v >= 'A' && v <= 'Z' {
+		if capNext && v >= 'a' && v <= 'z' {
+			v = int32(strings.ToUpper(string(v))[0])
+		}
+		if (v >= 'A' && v <= 'Z') ||
+			(v >= 'a' && v <= 'z') ||
+			(v >= '0' && v <= '9') {
 			n += string(v)
 		}
-		if v >= '0' && v <= '9' {
-			n += string(v)
-		}
-		if v >= 'a' && v <= 'z' {
-			if capNext {
-				n += strings.ToUpper(string(v))
-			} else {
-				n += string(v)
-			}
-		}
-		if v == '_' || v == ' ' || v == '-' || v == '.' {
-			capNext = true
-		} else {
-			capNext = false
-		}
+		capNext = v == '_' || v == ' ' || v == '-' || v == '.'
 	}
 	return n
 }
@@ -73,8 +63,7 @@ func ToLowerCamel(s string) string {
 	}
 	if uppercaseAcronym[s] {
 		s = strings.ToLower(s)
-	}
-	if r := rune(s[0]); r >= 'A' && r <= 'Z' {
+	} else if r := s[0]; r >= 'A' && r <= 'Z' {
 		s = strings.ToLower(string(r)) + s[1:]
 	}
 	return toCamelInitCase(s, false)

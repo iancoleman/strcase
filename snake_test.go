@@ -54,7 +54,7 @@ func toSnake(tb testing.TB) {
 		out := i[1]
 		result := ToSnake(in)
 		if result != out {
-			tb.Error("'" + in + "'('" + result + "' != '" + out + "')")
+			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
 	}
 }
@@ -82,8 +82,8 @@ func toSnakeWithIgnore(tb testing.TB) {
 		{"AnyKind of_string", "any_kind_of_string"},
 		{"numbers2and55with000", "numbers_2_and_55_with_000"},
 		{"JSONData", "json_data"},
-		{"AwesomeAcitvity.UserID", "awesome_acitvity.user_id", "."},
-		{"AwesomeAcitvity.User.Id", "awesome_acitvity.user.id", "."},
+		{"AwesomeActivity.UserID", "awesome_activity.user_id", "."},
+		{"AwesomeActivity.User.Id", "awesome_activity.user.id", "."},
 		{"AwesomeUsername@Awesome.Com", "awesome_username@awesome._com", "@"},
 	}
 	for _, i := range cases {
@@ -95,7 +95,11 @@ func toSnakeWithIgnore(tb testing.TB) {
 		}
 		result := ToSnakeWithIgnore(in, ignore)
 		if result != out {
-			tb.Error("'" + in + "'('" + result + "' != '" + out + "')")
+			istr := ""
+			if len(i) == 3 {
+				istr = " ignoring '" + i[2] + "'"
+			}
+			tb.Errorf("%q (%q != %q%s)", in, result, out, istr)
 		}
 	}
 }
@@ -132,7 +136,7 @@ func toDelimited(tb testing.TB) {
 		out := i[1]
 		result := ToDelimited(in, '@')
 		if result != out {
-			tb.Error("'" + in + "' ('" + result + "' != '" + out + "')")
+			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
 	}
 }
@@ -152,7 +156,7 @@ func toScreamingSnake(tb testing.TB) {
 		out := i[1]
 		result := ToScreamingSnake(in)
 		if result != out {
-			tb.Error("'" + result + "' != '" + out + "'")
+			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
 	}
 }
@@ -172,7 +176,7 @@ func toKebab(tb testing.TB) {
 		out := i[1]
 		result := ToKebab(in)
 		if result != out {
-			tb.Error("'" + result + "' != '" + out + "'")
+			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
 	}
 }
@@ -192,7 +196,7 @@ func toScreamingKebab(tb testing.TB) {
 		out := i[1]
 		result := ToScreamingKebab(in)
 		if result != out {
-			tb.Error("'" + result + "' != '" + out + "'")
+			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
 	}
 }
@@ -212,7 +216,7 @@ func toScreamingDelimited(tb testing.TB) {
 		out := i[1]
 		result := ToScreamingDelimited(in, '.', 0, true)
 		if result != out {
-			tb.Error("'" + result + "' != '" + out + "'")
+			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
 	}
 }
@@ -230,11 +234,15 @@ func toScreamingDelimitedWithIgnore(tb testing.TB) {
 	for _, i := range cases {
 		in := i[0]
 		out := i[1]
-		delimiter := uint8(i[2][0])
-		ignore := uint8(i[3][0])
+		delimiter := i[2][0]
+		ignore := i[3][0]
 		result := ToScreamingDelimited(in, delimiter, ignore, true)
 		if result != out {
-			tb.Error("'" + result + "' != '" + out + "'")
+			istr := ""
+			if len(i) == 4 {
+				istr = " ignoring '" + i[3] + "'"
+			}
+			tb.Errorf("%q (%q != %q%s)", in, result, out, istr)
 		}
 	}
 }

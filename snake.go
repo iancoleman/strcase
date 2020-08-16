@@ -31,11 +31,10 @@ import (
 
 // ToSnake converts a string to snake_case
 func ToSnake(s string) string {
-
 	return ToDelimited(s, '_')
 }
-func ToSnakeWithIgnore(s string, ignore uint8) string {
 
+func ToSnakeWithIgnore(s string, ignore uint8) string {
 	return ToScreamingDelimited(s, '_', ignore, false)
 }
 
@@ -70,37 +69,34 @@ func ToScreamingDelimited(s string, delimiter uint8, ignore uint8, screaming boo
 	n := ""
 	for i, v := range s {
 		// treat acronyms as words, eg for JSONData -> JSON is a whole word
-		nextCaseIsChanged := false
 		if i+1 < len(s) {
 			next := s[i+1]
 			vIsCap := v >= 'A' && v <= 'Z'
 			vIsLow := v >= 'a' && v <= 'z'
 			nextIsCap := next >= 'A' && next <= 'Z'
 			nextIsLow := next >= 'a' && next <= 'z'
+			// add underscore if next letter case type is changed
 			if (vIsCap && nextIsLow) || (vIsLow && nextIsCap) {
-				nextCaseIsChanged = true
-			}
-			if ignore > 0 && i-1 >= 0 && s[i-1] == ignore && nextCaseIsChanged {
-				nextCaseIsChanged = false
+				if prevIgnore := ignore > 0 && i > 0 && s[i-1] == ignore; !prevIgnore {
+					if i > 0 && vIsCap && nextIsLow {
+						if prevDelim := len(n) > 0 && n[len(n)-1] == delimiter; !prevDelim {
+							n += string(delimiter)
+						}
+					}
+					n += string(v)
+					if vIsLow {
+						n += string(delimiter)
+					}
+					continue
+				}
 			}
 		}
 
-		if i > 0 && n[len(n)-1] != delimiter && nextCaseIsChanged {
-			// add underscore if next letter case type is changed
-			if v >= 'A' && v <= 'Z' {
-				n += string(delimiter) + string(v)
-			} else if v >= 'a' && v <= 'z' {
-				n += string(v) + string(delimiter)
-			}
-		} else if v == ' ' || v == '_' || v == '-' {
-			// replace spaces/underscores with delimiters
-			if uint8(v) == ignore {
-				n += string(v)
-			} else {
-				n += string(delimiter)
-			}
+		if (v == ' ' || v == '_' || v == '-') && uint8(v) != ignore {
+			// replace space/underscore/hyphen with delimiter
+			n += string(delimiter)
 		} else {
-			n = n + string(v)
+			n += string(v)
 		}
 	}
 
