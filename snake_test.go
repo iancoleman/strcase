@@ -48,6 +48,12 @@ func toSnake(tb testing.TB) {
 		{"JSONData", "json_data"},
 		{"userID", "user_id"},
 		{"AAAbbb", "aa_abbb"},
+		{"1A2", "1_a_2"},
+		{"A1B", "a_1_b"},
+		{"A1A2A3", "a_1_a_2_a_3"},
+		{"A1 A2 A3", "a_1_a_2_a_3"},
+		{"AB1AB2AB3", "ab_1_ab_2_ab_3"},
+		{"AB1 AB2 AB3", "ab_1_ab_2_ab_3"},
 	}
 	for _, i := range cases {
 		in := i[0]

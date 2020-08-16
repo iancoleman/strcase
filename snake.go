@@ -64,7 +64,6 @@ func ToDelimited(s string, delimiter uint8) string {
 // or delimited.snake.case
 // (in this case `delimiter = '.'; screaming = false`)
 func ToScreamingDelimited(s string, delimiter uint8, ignore uint8, screaming bool) string {
-	s = addWordBoundariesToNumbers(s)
 	n := strings.Builder{}
 	n.Grow(len(s) + 2) // nominal 2 bytes of extra space for inserted delimiters
 	start := true
@@ -99,10 +98,12 @@ func ToScreamingDelimited(s string, delimiter uint8, ignore uint8, screaming boo
 		// treat acronyms as words, eg for JSONData -> JSON is a whole word
 		if i+1 < len(s) {
 			next := s[i+1]
+			vIsNum := v >= '0' && v <= '9'
 			nextIsCap := next >= 'A' && next <= 'Z'
 			nextIsLow := next >= 'a' && next <= 'z'
+			nextIsNum := next >= '0' && next <= '9'
 			// add underscore if next letter case type is changed
-			if (vIsCap && nextIsLow) || (vIsLow && nextIsCap) {
+			if (vIsCap && (nextIsLow || nextIsNum)) || (vIsLow && (nextIsCap || nextIsNum)) || (vIsNum && (nextIsCap || nextIsLow)) {
 				if prevIgnore := ignore > 0 && i > 0 && s[i-1] == ignore; !prevIgnore {
 					if vIsCap && nextIsLow {
 						if prevIsCap := i > 0 && s[i-1] >= 'A' && s[i-1] <= 'Z'; prevIsCap {
@@ -110,7 +111,7 @@ func ToScreamingDelimited(s string, delimiter uint8, ignore uint8, screaming boo
 						}
 					}
 					n.WriteByte(v)
-					if vIsLow {
+					if vIsLow || vIsNum || nextIsNum {
 						n.WriteByte(delimiter)
 					}
 					continue

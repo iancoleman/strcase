@@ -38,7 +38,6 @@ func toCamelInitCase(s string, initCase bool) string {
 		s = a
 	}
 
-	s = addWordBoundariesToNumbers(s)
 	n := strings.Builder{}
 	n.Grow(len(s))
 	capNext := initCase
@@ -56,9 +55,12 @@ func toCamelInitCase(s string, initCase bool) string {
 				v -= 'A'
 			}
 		}
-		if vIsCap || vIsLow || (v >= '0' && v <= '9') {
+		if vIsCap || vIsLow {
 			n.WriteByte(v)
 			capNext = false
+		} else if vIsNum := v >= '0' && v <= '9'; vIsNum {
+			n.WriteByte(v)
+			capNext = true
 		} else {
 			capNext = v == '_' || v == ' ' || v == '-' || v == '.'
 		}
