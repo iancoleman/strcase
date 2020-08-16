@@ -78,8 +78,8 @@ func ToScreamingDelimited(s string, delimiter uint8, ignore uint8, screaming boo
 			// add underscore if next letter case type is changed
 			if (vIsCap && nextIsLow) || (vIsLow && nextIsCap) {
 				if prevIgnore := ignore > 0 && i > 0 && s[i-1] == ignore; !prevIgnore {
-					if i > 0 && vIsCap && nextIsLow {
-						if prevDelim := len(n) > 0 && n[len(n)-1] == delimiter; !prevDelim {
+					if vIsCap && nextIsLow {
+						if prevIsCap := i > 0 && s[i-1] >= 'A' && s[i-1] <= 'Z'; prevIsCap {
 							n += string(delimiter)
 						}
 					}

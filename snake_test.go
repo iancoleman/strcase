@@ -84,7 +84,7 @@ func toSnakeWithIgnore(tb testing.TB) {
 		{"JSONData", "json_data"},
 		{"AwesomeActivity.UserID", "awesome_activity.user_id", "."},
 		{"AwesomeActivity.User.Id", "awesome_activity.user.id", "."},
-		{"AwesomeUsername@Awesome.Com", "awesome_username@awesome._com", "@"},
+		{"AwesomeUsername@Awesome.Com", "awesome_username@awesome.com", "@"},
 	}
 	for _, i := range cases {
 		in := i[0]
