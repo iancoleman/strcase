@@ -68,6 +68,8 @@ func toLowerCamel(tb testing.TB) {
 		{"AnyKind of_string", "anyKindOfString"},
 		{"AnyKind.of-string", "anyKindOfString"},
 		{"ID", "id"},
+		{"some string", "someString"},
+		{" some string", "someString"},
 	}
 	for _, i := range cases {
 		in := i[0]

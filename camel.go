@@ -31,6 +31,7 @@ import (
 
 // Converts a string to CamelCase
 func toCamelInitCase(s string, initCase bool) string {
+	s = strings.TrimSpace(s)
 	if s == "" {
 		return s
 	}
