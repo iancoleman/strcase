@@ -64,27 +64,10 @@ func ToDelimited(s string, delimiter uint8) string {
 // or delimited.snake.case
 // (in this case `delimiter = '.'; screaming = false`)
 func ToScreamingDelimited(s string, delimiter uint8, ignore uint8, screaming bool) string {
+	s = strings.TrimSpace(s)
 	n := strings.Builder{}
 	n.Grow(len(s) + 2) // nominal 2 bytes of extra space for inserted delimiters
-	start := true
-	spaces := 0
 	for i, v := range []byte(s) {
-		if v == ' ' {
-			spaces++
-			continue
-		} else if start {
-			start = false
-			spaces = 0
-		} else {
-			for ; spaces > 0; spaces-- {
-				if ignore == ' ' {
-					n.WriteByte(' ')
-				} else {
-					n.WriteByte(delimiter)
-				}
-			}
-		}
-
 		vIsCap := v >= 'A' && v <= 'Z'
 		vIsLow := v >= 'a' && v <= 'z'
 		if vIsLow && screaming {
