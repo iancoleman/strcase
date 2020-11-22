@@ -85,6 +85,78 @@ func TestToLowerCamel(t *testing.T) {
 	toLowerCamel(t)
 }
 
+func TestCustomAcronymsToCamel(t *testing.T) {
+	tests := []struct {
+		name         string
+		acronymKey   string
+		acronymValue string
+		expected     string
+	}{
+		{
+			name:         "API Custom Acronym",
+			acronymKey:   "API",
+			acronymValue: "api",
+			expected:     "Api",
+		},
+		{
+			name:         "ABCDACME Custom Acroynm",
+			acronymKey:   "ABCDACME",
+			acronymValue: "AbcdAcme",
+			expected:     "AbcdAcme",
+		},
+		{
+			name:         "PostgreSQL Custom Acronym",
+			acronymKey:   "PostgreSQL",
+			acronymValue: "PostgreSQL",
+			expected:     "PostgreSQL",
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			ConfigureAcronym(test.acronymKey, test.acronymValue)
+			if result := ToCamel(test.acronymKey); result != test.expected {
+				t.Errorf("expected custom acronym result %s, got %s", test.expected, result)
+			}
+		})
+	}
+}
+
+func TestCustomAcronymsToLowerCamel(t *testing.T) {
+	tests := []struct {
+		name         string
+		acronymKey   string
+		acronymValue string
+		expected     string
+	}{
+		{
+			name:         "API Custom Acronym",
+			acronymKey:   "API",
+			acronymValue: "api",
+			expected:     "api",
+		},
+		{
+			name:         "ABCDACME Custom Acroynm",
+			acronymKey:   "ABCDACME",
+			acronymValue: "AbcdAcme",
+			expected:     "abcdAcme",
+		},
+		{
+			name:         "PostgreSQL Custom Acronym",
+			acronymKey:   "PostgreSQL",
+			acronymValue: "PostgreSQL",
+			expected:     "postgreSQL",
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			ConfigureAcronym(test.acronymKey, test.acronymValue)
+			if result := ToLowerCamel(test.acronymKey); result != test.expected {
+				t.Errorf("expected custom acronym result %s, got %s", test.expected, result)
+			}
+		})
+	}
+}
+
 func BenchmarkToLowerCamel(b *testing.B) {
 	benchmarkCamelTest(b, toLowerCamel)
 }
