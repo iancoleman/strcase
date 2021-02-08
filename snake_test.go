@@ -92,14 +92,16 @@ func toSnakeWithIgnore(tb testing.TB) {
 		{"JSONData", "json_data"},
 		{"AwesomeActivity.UserID", "awesome_activity.user_id", "."},
 		{"AwesomeActivity.User.Id", "awesome_activity.user.id", "."},
-		{"AwesomeUsername@Awesome.Com", "awesome_username@awesome.com", "@"},
+		{"AwesomeUsername@Awesome.Com", "awesome_username@awesome.com", ".@"},
+		{"lets-ignore all.of dots-and-dashes", "lets-ignore_all.of_dots-and-dashes", ".-"},
 	}
 	for _, i := range cases {
 		in := i[0]
 		out := i[1]
-		var ignore uint8
+		var ignore string
+		ignore = ""
 		if len(i) == 3 {
-			ignore = i[2][0]
+			ignore = i[2]
 		}
 		result := ToSnakeWithIgnore(in, ignore)
 		if result != out {
@@ -222,7 +224,7 @@ func toScreamingDelimited(tb testing.TB) {
 	for _, i := range cases {
 		in := i[0]
 		out := i[1]
-		result := ToScreamingDelimited(in, '.', 0, true)
+		result := ToScreamingDelimited(in, '.', "", true)
 		if result != out {
 			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
@@ -244,7 +246,7 @@ func toScreamingDelimitedWithIgnore(tb testing.TB) {
 		out := i[1]
 		delimiter := i[2][0]
 		ignore := i[3][0]
-		result := ToScreamingDelimited(in, delimiter, ignore, true)
+		result := ToScreamingDelimited(in, delimiter, string(ignore), true)
 		if result != out {
 			istr := ""
 			if len(i) == 4 {
