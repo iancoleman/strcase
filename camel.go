@@ -42,6 +42,7 @@ func toCamelInitCase(s string, initCase bool) string {
 	n := strings.Builder{}
 	n.Grow(len(s))
 	capNext := initCase
+	prevWasNum := false
 	for i, v := range []byte(s) {
 		vIsCap := v >= 'A' && v <= 'Z'
 		vIsLow := v >= 'a' && v <= 'z'
@@ -59,11 +60,17 @@ func toCamelInitCase(s string, initCase bool) string {
 		if vIsCap || vIsLow {
 			n.WriteByte(v)
 			capNext = false
+			prevWasNum = false
 		} else if vIsNum := v >= '0' && v <= '9'; vIsNum {
 			n.WriteByte(v)
+			prevWasNum = true
 			capNext = true
 		} else {
 			capNext = v == '_' || v == ' ' || v == '-' || v == '.'
+			if capNext && prevWasNum {
+				n.WriteByte('_')
+				prevWasNum = false
+			}
 		}
 	}
 	return n.String()
