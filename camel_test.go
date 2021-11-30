@@ -39,7 +39,7 @@ func toCamel(tb testing.TB) {
 		{"many_many_words", "ManyManyWords"},
 		{"AnyKind of_string", "AnyKindOfString"},
 		{"AnyKind.of_string13_37", "AnyKindOfString13_37"},
-		{"AnyKind.of_string13_37test", "AnyKindOfString13_37Test"},
+		{"AnyKind.of_string13_37 test", "AnyKindOfString13_37Test"},
 		{"odd-fix", "OddFix"},
 		{"numbers2And55with000", "Numbers2And55With000"},
 		{"ID", "Id"},
