@@ -44,6 +44,8 @@ func toSnake(tb testing.TB) {
 		{"ManyManyWords", "many_many_words"},
 		{"manyManyWords", "many_many_words"},
 		{"AnyKind of_string", "any_kind_of_string"},
+		{"AnyKind of string13 37", "any_kind_of_string_13_37"},
+		{"AnyKind of string13 37 test", "any_kind_of_string_13_37_test"},
 		{"numbers2and55with000", "numbers_2_and_55_with_000"},
 		{"JSONData", "json_data"},
 		{"userID", "user_id"},
