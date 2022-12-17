@@ -30,12 +30,13 @@ import (
 )
 
 // Converts a string to CamelCase
-func toCamelInitCase(s string, initCase bool) string {
+func toCamelInitCase(s string, initCase bool, acronyms map[string]string) string {
 	s = strings.TrimSpace(s)
 	if s == "" {
 		return s
 	}
-	if a, ok := uppercaseAcronym[s]; ok {
+
+	if a, ok := acronyms[s]; ok {
 		s = a
 	}
 
@@ -71,10 +72,22 @@ func toCamelInitCase(s string, initCase bool) string {
 
 // ToCamel converts a string to CamelCase
 func ToCamel(s string) string {
-	return toCamelInitCase(s, true)
+	return toCamelInitCase(s, true, uppercaseAcronym)
 }
 
 // ToLowerCamel converts a string to lowerCamelCase
 func ToLowerCamel(s string) string {
-	return toCamelInitCase(s, false)
+	return toCamelInitCase(s, false, uppercaseAcronym)
+}
+
+// ToCamelWithAcronyms converts a string to CamelCase using custom specified
+// acronyms.
+func ToCamelWithAcronyms(s string, acronyms map[string]string) string {
+	return toCamelInitCase(s, true, acronyms)
+}
+
+// ToLowerCamelWithAcronyms converts a string to lowerCamelCase using custom
+// specified acronyms.
+func ToLowerCamelWithAcronyms(s string, acronyms map[string]string) string {
+	return toCamelInitCase(s, false, acronyms)
 }
