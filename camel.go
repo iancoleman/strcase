@@ -30,12 +30,17 @@ import (
 )
 
 // Converts a string to CamelCase
-func toCamelInitCase(s string, initCase bool) string {
+func toCamelInitCase(s string, initCase bool, acronyms ...map[string]string) string {
 	s = strings.TrimSpace(s)
 	if s == "" {
 		return s
 	}
-	if a, ok := uppercaseAcronym[s]; ok {
+
+	ucAcronyms := uppercaseAcronym
+	if len(acronyms) > 0 {
+		ucAcronyms = acronyms[0]
+	}
+	if a, ok := ucAcronyms[s]; ok {
 		s = a
 	}
 
@@ -69,12 +74,14 @@ func toCamelInitCase(s string, initCase bool) string {
 	return n.String()
 }
 
-// ToCamel converts a string to CamelCase
-func ToCamel(s string) string {
-	return toCamelInitCase(s, true)
+// ToCamel converts a string to CamelCase.  It takes an optional map of acronyms
+// to use in place of the global ConfigureAcronym().
+func ToCamel(s string, acronyms ...map[string]string) string {
+	return toCamelInitCase(s, true, acronyms...)
 }
 
-// ToLowerCamel converts a string to lowerCamelCase
-func ToLowerCamel(s string) string {
-	return toCamelInitCase(s, false)
+// ToLowerCamel converts a string to lowerCamelCase.  It takes an optional map of
+// acronyms to use in place of the global ConfigureAcronym().
+func ToLowerCamel(s string, acronyms ...map[string]string) string {
+	return toCamelInitCase(s, false, acronyms...)
 }

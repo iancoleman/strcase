@@ -157,6 +157,52 @@ func TestCustomAcronymsToLowerCamel(t *testing.T) {
 	}
 }
 
+func TestToCamelWithAcronyms(t *testing.T) {
+	tests := []struct {
+		name       string
+		acronymKey string
+		acronymMap map[string]string
+		expected   string
+	}{
+		{
+			name:       "API Custom Acronym",
+			acronymKey: "API",
+			acronymMap: map[string]string{
+				"API": "api",
+			},
+			expected: "Api",
+		},
+		{
+			name:       "ABCDACME Custom Acroynm",
+			acronymKey: "ABCDACME",
+			acronymMap: map[string]string{
+				"ABCDACME": "AbcdAcme",
+			},
+			expected: "AbcdAcme",
+		},
+		{
+			name:       "PostgreSQL Custom Acronym",
+			acronymKey: "PostgreSQL",
+			acronymMap: map[string]string{
+				"PostgreSQL": "PostgreSQL",
+			},
+			expected: "PostgreSQL",
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			// Set the package values to be known, bogus values to validate the
+			// map sent in is used.
+			ConfigureAcronym("API", "aPi")
+			ConfigureAcronym("ABCDACME", "AbCdAcMe")
+			ConfigureAcronym("PostgreSQL", "PoSTGreSQL")
+			if result := ToCamel(test.acronymKey, test.acronymMap); result != test.expected {
+				t.Errorf("expected custom acronym result %s, got %s", test.expected, result)
+			}
+		})
+	}
+}
+
 func BenchmarkToLowerCamel(b *testing.B) {
 	benchmarkCamelTest(b, toLowerCamel)
 }
