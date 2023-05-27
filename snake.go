@@ -68,8 +68,8 @@ func ToScreamingDelimited(s string, delimiter uint8, ignore string, screaming bo
 	n := strings.Builder{}
 	n.Grow(len(s) + 2) // nominal 2 bytes of extra space for inserted delimiters
 	for i, v := range []byte(s) {
-		vIsCap := v >= 'A' && v <= 'Z'
-		vIsLow := v >= 'a' && v <= 'z'
+		vIsCap := capitalLetters.Contains(v)
+		vIsLow := smallLetters.Contains(v)
 		if vIsLow && screaming {
 			v += 'A'
 			v -= 'a'
@@ -81,16 +81,16 @@ func ToScreamingDelimited(s string, delimiter uint8, ignore string, screaming bo
 		// treat acronyms as words, eg for JSONData -> JSON is a whole word
 		if i+1 < len(s) {
 			next := s[i+1]
-			vIsNum := v >= '0' && v <= '9'
-			nextIsCap := next >= 'A' && next <= 'Z'
-			nextIsLow := next >= 'a' && next <= 'z'
-			nextIsNum := next >= '0' && next <= '9'
+			vIsNum := numbers.Contains(v)
+			nextIsCap := capitalLetters.Contains(next)
+			nextIsLow := smallLetters.Contains(next)
+			nextIsNum := numbers.Contains(next)
 			// add underscore if next letter case type is changed
 			if (vIsCap && (nextIsLow || nextIsNum)) || (vIsLow && (nextIsCap || nextIsNum)) || (vIsNum && (nextIsCap || nextIsLow)) {
-				prevIgnore := ignore != "" && i > 0 && strings.ContainsAny(string(s[i-1]), ignore)
+				prevIgnore := ignore != "" && i > 0 && strings.IndexByte(ignore, s[i-1]) != -1
 				if !prevIgnore {
 					if vIsCap && nextIsLow {
-						if prevIsCap := i > 0 && s[i-1] >= 'A' && s[i-1] <= 'Z'; prevIsCap {
+						if prevIsCap := i > 0 && capitalLetters.Contains(s[i-1]); prevIsCap {
 							n.WriteByte(delimiter)
 						}
 					}
@@ -103,7 +103,7 @@ func ToScreamingDelimited(s string, delimiter uint8, ignore string, screaming bo
 			}
 		}
 
-		if (v == ' ' || v == '_' || v == '-' || v == '.') && !strings.ContainsAny(string(v), ignore) {
+		if separators.Contains(v) && strings.IndexByte(ignore, v) == -1 {
 			// replace space/underscore/hyphen/dot with delimiter
 			n.WriteByte(delimiter)
 		} else {

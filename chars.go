@@ -25,56 +25,9 @@
 
 package strcase
 
-import (
-	"strings"
-)
+import asciiset "github.com/elliotwutingfeng/asciiset"
 
-// Converts a string to CamelCase
-func toCamelInitCase(s string, initCase bool) string {
-	s = strings.TrimSpace(s)
-	if s == "" {
-		return s
-	}
-	if a, ok := uppercaseAcronym[s]; ok {
-		s = a
-	}
-
-	n := strings.Builder{}
-	n.Grow(len(s))
-	capNext := initCase
-	for i, v := range []byte(s) {
-		vIsCap := capitalLetters.Contains(v)
-		vIsLow := smallLetters.Contains(v)
-		if capNext {
-			if vIsLow {
-				v += 'A'
-				v -= 'a'
-			}
-		} else if i == 0 {
-			if vIsCap {
-				v += 'a'
-				v -= 'A'
-			}
-		}
-		if vIsCap || vIsLow {
-			n.WriteByte(v)
-			capNext = false
-		} else if vIsNum := numbers.Contains(v); vIsNum {
-			n.WriteByte(v)
-			capNext = true
-		} else {
-			capNext = separators.Contains(v)
-		}
-	}
-	return n.String()
-}
-
-// ToCamel converts a string to CamelCase
-func ToCamel(s string) string {
-	return toCamelInitCase(s, true)
-}
-
-// ToLowerCamel converts a string to lowerCamelCase
-func ToLowerCamel(s string) string {
-	return toCamelInitCase(s, false)
-}
+var numbers, _ = asciiset.MakeASCIISet("0123456789")
+var smallLetters, _ = asciiset.MakeASCIISet("abcdefghijklmnopqrstuvwxyz")
+var capitalLetters, _ = asciiset.MakeASCIISet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+var separators, _ = asciiset.MakeASCIISet(" _-.")
