@@ -35,13 +35,15 @@ func toCamelInitCase(s string, initCase bool) string {
 	if s == "" {
 		return s
 	}
-	if a, ok := uppercaseAcronym[s]; ok {
+	a, hasAcronym := uppercaseAcronym[s]
+	if hasAcronym {
 		s = a
 	}
 
 	n := strings.Builder{}
 	n.Grow(len(s))
 	capNext := initCase
+	prevIsCap := false
 	for i, v := range []byte(s) {
 		vIsCap := v >= 'A' && v <= 'Z'
 		vIsLow := v >= 'a' && v <= 'z'
@@ -55,7 +57,12 @@ func toCamelInitCase(s string, initCase bool) string {
 				v += 'a'
 				v -= 'A'
 			}
+		} else if prevIsCap && vIsCap && !hasAcronym {
+			v += 'a'
+			v -= 'A'
 		}
+		prevIsCap = vIsCap
+
 		if vIsCap || vIsLow {
 			n.WriteByte(v)
 			capNext = false

@@ -41,6 +41,7 @@ func toCamel(tb testing.TB) {
 		{"odd-fix", "OddFix"},
 		{"numbers2And55with000", "Numbers2And55With000"},
 		{"ID", "Id"},
+		{"CONSTANT_CASE", "ConstantCase"},
 	}
 	for _, i := range cases {
 		in := i[0]
@@ -70,6 +71,7 @@ func toLowerCamel(tb testing.TB) {
 		{"ID", "id"},
 		{"some string", "someString"},
 		{" some string", "someString"},
+		{"CONSTANT_CASE", "constantCase"},
 	}
 	for _, i := range cases {
 		in := i[0]
