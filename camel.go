@@ -35,9 +35,9 @@ func toCamelInitCase(s string, initCase bool) string {
 	if s == "" {
 		return s
 	}
-	a, hasAcronym := uppercaseAcronym[s]
+	a, hasAcronym := uppercaseAcronym.Load(s)
 	if hasAcronym {
-		s = a
+		s = a.(string)
 	}
 
 	n := strings.Builder{}
