@@ -42,6 +42,7 @@ func toCamel(tb testing.TB) {
 		{"numbers2And55with000", "Numbers2And55With000"},
 		{"DBClusterParameterGroup", "DBClusterParameterGroup"},
 		{"ID", "Id"},
+		{"CONSTANT_CASE", "ConstantCase"},
 	}
 	for _, i := range cases {
 		in := i[0]
@@ -72,6 +73,7 @@ func toLowerCamel(tb testing.TB) {
 		{"some string", "someString"},
 		{" some string", "someString"},
 		{"DBClusterParameterGroup", "dBClusterParameterGroup"},
+		{"CONSTANT_CASE", "constantCase"},
 	}
 	for _, i := range cases {
 		in := i[0]
