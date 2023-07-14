@@ -40,6 +40,7 @@ func toCamel(tb testing.TB) {
 		{"AnyKind of_string", "AnyKindOfString"},
 		{"odd-fix", "OddFix"},
 		{"numbers2And55with000", "Numbers2And55With000"},
+		{"DBClusterParameterGroup", "DBClusterParameterGroup"},
 		{"ID", "Id"},
 	}
 	for _, i := range cases {
@@ -70,6 +71,7 @@ func toLowerCamel(tb testing.TB) {
 		{"ID", "id"},
 		{"some string", "someString"},
 		{" some string", "someString"},
+		{"DBClusterParameterGroup", "dBClusterParameterGroup"},
 	}
 	for _, i := range cases {
 		in := i[0]
