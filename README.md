@@ -22,8 +22,8 @@ s := "AnyKind of_string"
 | `ToDelimited(s, '.')`                     | `any.kind.of.string` |
 | `ToScreamingDelimited(s, '.', '', true)`  | `ANY.KIND.OF.STRING` |
 | `ToScreamingDelimited(s, '.', ' ', true)` | `ANY.KIND OF.STRING` |
-| `ToCamel(s)`                              | `AnyKindOfString`    |
-| `ToLowerCamel(s)`                         | `anyKindOfString`    |
+| `ToPascal(s)`                             | `AnyKindOfString`    |
+| `ToCamel(s)`                              | `anyKindOfString`    |
 
 
 ## Install

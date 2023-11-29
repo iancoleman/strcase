@@ -28,7 +28,7 @@ import (
 	"testing"
 )
 
-func toCamel(tb testing.TB) {
+func toPascal(tb testing.TB) {
 	cases := [][]string{
 		{"test_case", "TestCase"},
 		{"test.case", "TestCase"},
@@ -46,22 +46,22 @@ func toCamel(tb testing.TB) {
 	for _, i := range cases {
 		in := i[0]
 		out := i[1]
-		result := ToCamel(in)
+		result := ToPascal(in)
 		if result != out {
 			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
 	}
 }
 
-func TestToCamel(t *testing.T) {
-	toCamel(t)
+func TestToPascal(t *testing.T) {
+	toPascal(t)
 }
 
-func BenchmarkToCamel(b *testing.B) {
-	benchmarkCamelTest(b, toCamel)
+func BenchmarkToPascal(b *testing.B) {
+	benchmarkCamelTest(b, toPascal)
 }
 
-func toLowerCamel(tb testing.TB) {
+func toCamel(tb testing.TB) {
 	cases := [][]string{
 		{"foo-bar", "fooBar"},
 		{"TestCase", "testCase"},
@@ -76,18 +76,18 @@ func toLowerCamel(tb testing.TB) {
 	for _, i := range cases {
 		in := i[0]
 		out := i[1]
-		result := ToLowerCamel(in)
+		result := ToCamel(in)
 		if result != out {
 			tb.Errorf("%q (%q != %q)", in, result, out)
 		}
 	}
 }
 
-func TestToLowerCamel(t *testing.T) {
-	toLowerCamel(t)
+func TestToCamel(t *testing.T) {
+	toCamel(t)
 }
 
-func TestCustomAcronymsToCamel(t *testing.T) {
+func TestCustomAcronymsToPascal(t *testing.T) {
 	tests := []struct {
 		name         string
 		acronymKey   string
@@ -116,14 +116,14 @@ func TestCustomAcronymsToCamel(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			ConfigureAcronym(test.acronymKey, test.acronymValue)
-			if result := ToCamel(test.acronymKey); result != test.expected {
+			if result := ToPascal(test.acronymKey); result != test.expected {
 				t.Errorf("expected custom acronym result %s, got %s", test.expected, result)
 			}
 		})
 	}
 }
 
-func TestCustomAcronymsToLowerCamel(t *testing.T) {
+func TestCustomAcronymsToCamel(t *testing.T) {
 	tests := []struct {
 		name         string
 		acronymKey   string
@@ -152,15 +152,15 @@ func TestCustomAcronymsToLowerCamel(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			ConfigureAcronym(test.acronymKey, test.acronymValue)
-			if result := ToLowerCamel(test.acronymKey); result != test.expected {
+			if result := ToCamel(test.acronymKey); result != test.expected {
 				t.Errorf("expected custom acronym result %s, got %s", test.expected, result)
 			}
 		})
 	}
 }
 
-func BenchmarkToLowerCamel(b *testing.B) {
-	benchmarkCamelTest(b, toLowerCamel)
+func BenchmarkToCamel(b *testing.B) {
+	benchmarkCamelTest(b, toCamel)
 }
 
 func benchmarkCamelTest(b *testing.B, fn func(testing.TB)) {

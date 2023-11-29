@@ -1,3 +1,3 @@
-module github.com/iancoleman/strcase
+module github.com/vedadiyan/strcase
 
 go 1.16
