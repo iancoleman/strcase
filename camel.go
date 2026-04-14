@@ -68,7 +68,8 @@ func toCamelInitCase(s string, initCase bool) string {
 			capNext = false
 		} else if vIsNum := v >= '0' && v <= '9'; vIsNum {
 			n.WriteByte(v)
-			capNext = true
+			// Don't capitalize the next letter after a digit;
+			// "k8s" should stay as one word, not become "k8S".
 		} else {
 			capNext = v == '_' || v == ' ' || v == '-' || v == '.'
 		}
