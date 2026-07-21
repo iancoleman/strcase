@@ -70,7 +70,9 @@ func toCamelInitCase(s string, initCase bool) string {
 			n.WriteByte(v)
 			capNext = true
 		} else {
-			capNext = v == '_' || v == ' ' || v == '-' || v == '.'
+			// Any non-alphanumeric character is a word separator so the next
+			// letter is capitalized (e.g. "st(range)" -> "StRange").
+			capNext = true
 		}
 	}
 	return n.String()
