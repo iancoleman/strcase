@@ -70,7 +70,7 @@ func toCamelInitCase(s string, initCase bool) string {
 			n.WriteByte(v)
 			capNext = true
 		} else {
-			capNext = v == '_' || v == ' ' || v == '-' || v == '.'
+			capNext = true
 		}
 	}
 	return n.String()
