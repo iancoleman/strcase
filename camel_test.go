@@ -159,6 +159,63 @@ func TestCustomAcronymsToLowerCamel(t *testing.T) {
 	}
 }
 
+func TestCustomAcronymsCompoundWords(t *testing.T) {
+	ConfigureAcronym("ID", "ID")
+	defer uppercaseAcronym.Delete("ID")
+	ConfigureAcronym("HTTP", "HTTP")
+	defer uppercaseAcronym.Delete("HTTP")
+
+	camelTests := []struct {
+		input    string
+		expected string
+	}{
+		{"customer_id", "CustomerID"},
+		{"CUSTOMER_ID", "CustomerID"},
+		{"customer-id", "CustomerID"},
+		{"customer.id", "CustomerID"},
+		{"customer id", "CustomerID"},
+		{"id_number", "IDNumber"},
+		{"customer_id_number", "CustomerIDNumber"},
+		{"test_http", "TestHTTP"},
+		{"TEST_HTTP", "TestHTTP"},
+		{"http_test", "HTTPTest"},
+		{"test_http_response", "TestHTTPResponse"},
+	}
+
+	for _, tc := range camelTests {
+		t.Run("ToCamel_"+tc.input, func(t *testing.T) {
+			if got := ToCamel(tc.input); got != tc.expected {
+				t.Errorf("ToCamel(%q) = %q, expected %q", tc.input, got, tc.expected)
+			}
+		})
+	}
+
+	lowerCamelTests := []struct {
+		input    string
+		expected string
+	}{
+		{"customer_id", "customerID"},
+		{"CUSTOMER_ID", "customerID"},
+		{"customer-id", "customerID"},
+		{"customer.id", "customerID"},
+		{"customer id", "customerID"},
+		{"id_number", "idNumber"},
+		{"customer_id_number", "customerIDNumber"},
+		{"test_http", "testHTTP"},
+		{"TEST_HTTP", "testHTTP"},
+		{"http_test", "httpTest"},
+		{"test_http_response", "testHTTPResponse"},
+	}
+
+	for _, tc := range lowerCamelTests {
+		t.Run("ToLowerCamel_"+tc.input, func(t *testing.T) {
+			if got := ToLowerCamel(tc.input); got != tc.expected {
+				t.Errorf("ToLowerCamel(%q) = %q, expected %q", tc.input, got, tc.expected)
+			}
+		})
+	}
+}
+
 func BenchmarkToLowerCamel(b *testing.B) {
 	benchmarkCamelTest(b, toLowerCamel)
 }

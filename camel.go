@@ -44,9 +44,51 @@ func toCamelInitCase(s string, initCase bool) string {
 	n.Grow(len(s))
 	capNext := initCase
 	prevIsCap := false
-	for i, v := range []byte(s) {
+	for i := 0; i < len(s); i++ {
+		v := s[i]
 		vIsCap := v >= 'A' && v <= 'Z'
 		vIsLow := v >= 'a' && v <= 'z'
+
+		isWordStart := (capNext || (i == 0 && n.Len() == 0)) && (vIsCap || vIsLow)
+		if !isWordStart && i > 0 && vIsCap && s[i-1] >= 'a' && s[i-1] <= 'z' {
+			isWordStart = true
+		}
+
+		if isWordStart {
+			j := i + 1
+			for j < len(s) {
+				c := s[j]
+				cIsCap := c >= 'A' && c <= 'Z'
+				cIsLow := c >= 'a' && c <= 'z'
+				if !cIsCap && !cIsLow {
+					break
+				}
+				if s[j-1] >= 'a' && s[j-1] <= 'z' && cIsCap {
+					break
+				}
+				if cIsCap && j+1 < len(s) && s[j-1] >= 'A' && s[j-1] <= 'Z' && s[j+1] >= 'a' && s[j+1] <= 'z' {
+					break
+				}
+				j++
+			}
+			word := s[i:j]
+			if acronym, ok := checkAcronym(word); ok {
+				if n.Len() == 0 && !initCase {
+					if isAllUpper(acronym) {
+						n.WriteString(strings.ToLower(acronym))
+					} else {
+						n.WriteString(strings.ToLower(acronym[:1]) + acronym[1:])
+					}
+				} else {
+					n.WriteString(strings.ToUpper(acronym[:1]) + acronym[1:])
+				}
+				capNext = false
+				prevIsCap = acronym[len(acronym)-1] >= 'A' && acronym[len(acronym)-1] <= 'Z'
+				i = j - 1
+				continue
+			}
+		}
+
 		if capNext {
 			if vIsLow {
 				v += 'A'
